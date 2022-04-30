@@ -1,0 +1,11 @@
+<h3>Usuarios</h3>
+    <ul>
+        {{#if privilegios}}
+        {{#each usuarios}}
+        <li><form action="/Modificar" method="post"><input type="submit" value="{{nombre}}" name="valor"></form></li>
+        {{/each}}
+
+        {{else}}
+        <h2 style="color: brown;">SOLO ADMINISTRACIÓN</h2>
+        {{/if}}
+    </ul>

@@ -1,0 +1,24 @@
+<div style="background-color:coral; margin: auto; width: fit-content; padding: 15px;">
+        {{#if superuser}}
+        <form action="/Registro" method="post">
+            <input type="text" placeholder="Usuario" name="usuario"><br>
+            <input type="password" placeholder="Contraseña" name="contra1"><br>
+            <input type="password" placeholder="Contraseña" name="contra2"><br>
+            <label><input type="radio" name="privilegios" value="Admin" checked="check">Administración</label><br>
+            <label><input type="radio" name="privilegios" value="Escritura">Escritura</label><br>
+            <label><input type="radio" name="privilegios" value="Lectura">Lectura</label><br>
+            <input type="submit" value="Crear Usuario">
+        </form>
+        {{else if privilegios}}
+        <form action="/Registro" method="post">
+            <input type="text" placeholder="Usuario" name="usuario"><br>
+            <input type="password" placeholder="Contraseña" name="contra1"><br>
+            <input type="password" placeholder="Contraseña" name="contra2"><br>
+            <label><input type="radio" name="privilegios" value="Escritura" checked="check">Escritura</label><br>
+            <label><input type="radio" name="privilegios" value="Lectura">Lectura</label><br>
+            <input type="submit" value="Crear Usuario">
+        </form>
+        {{else}}
+        <h2 style="color: brown;">SOLO ADMINISTRACIÓN</h2>
+        {{/if}}
+    </div>

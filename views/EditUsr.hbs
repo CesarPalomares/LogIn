@@ -1,0 +1,41 @@
+<div style="margin-top: auto;">
+    <form action="/Guardar" method="post">
+        <input type="text" name="usuario" value="{{nombre}}"><br>
+        <input type="password" name="p1" value="{{password}}"><br>
+        <input type="password" name="p2" value="{{password}}"><br>
+        {{#if superuser}}
+
+        {{#if adm}}
+        <label><input type="radio" name="privilegios" value="Admin" checked="checked">Administración</label><br>
+        <label><input type="radio" name="privilegios" value="Escritura">Escritura</label><br>
+        <label><input type="radio" name="privilegios" value="Lectura">Lectura</label><br>
+        {{else if escr}}
+        <label><input type="radio" name="privilegios" value="Admin">Administración</label><br>
+        <label><input type="radio" name="privilegios" value="Escritura" checked="checked">Escritura</label><br>
+        <label><input type="radio" name="privilegios" value="Lectura">Lectura</label><br>
+        {{else if lect}}
+        <label><input type="radio" name="privilegios" value="Admin">Administración</label><br>
+        <label><input type="radio" name="privilegios" value="Escritura">Escritura</label><br>
+        <label><input type="radio" name="privilegios" value="Lectura" checked="checked">Lectura</label><br>
+        {{/if}}
+        {{else}}
+
+        {{#if adm}}
+        <label><input type="radio" name="privilegios" value="Escritura">Escritura</label><br>
+        <label><input type="radio" name="privilegios" value="Lectura">Lectura</label><br>
+        {{else if escr}}
+        <label><input type="radio" name="privilegios" value="Escritura" checked="checked">Escritura</label><br>
+        <label><input type="radio" name="privilegios" value="Lectura">Lectura</label><br>
+        {{else if lect}}
+        <label><input type="radio" name="privilegios" value="Escritura">Escritura</label><br>
+        <label><input type="radio" name="privilegios" value="Lectura" checked="checked">Lectura</label><br>
+        {{/if}}
+
+        {{/if}}
+
+        <input type="submit" value="modificar">
+    </form><br>
+    <form action="/Eliminar" method="post">
+        <input type="submit" value="ELIMINAR" style="background-color: red;">
+    </form>
+</div>
