@@ -1,5 +1,4 @@
 const usuario = require('./modelos/usuario');
-const indicador = require('./modelos/indicador');
 
 const { Router } = require("express");
 
@@ -123,19 +122,25 @@ router.post('/Modificar', async (req, res) => {
     var superuser = u.privilegios == "SuperUser";
 
     var adm = privilegios == "Admin";
-    var escr = privilegios == "Escritura";
-    var lect = privilegios == "Lectura";
+    var invitado = privilegios == "Invitado";
 
-    res.render('EditUsr', {nombre: nombre,password: usr.password, superuser: superuser, adm: adm, escr: escr, lect: lect});
+    res.render('EditUsr', {nombre: nombre,password: usr.password, superuser: superuser, adm: adm, invitado: invitado});
 });
 
 router.post('/Guardar', async (req, res) => {
 
-    const u1 = await usuario.updateOne({nombre: req.session.usuarioMod}, {
-        nombre: req.body.usuario,
-        password: req.body.p1,
-        privilegios: req.body.privilegios
-    });
+    if(req.body.privilegios != undefined){
+        const u1 = await usuario.updateOne({nombre: req.session.usuarioMod}, {
+            nombre: req.body.usuario,
+            password: req.body.p1,
+            privilegios: req.body.privilegios
+        });
+    }else{
+        const u1 = await usuario.updateOne({nombre: req.session.usuarioMod}, {
+            nombre: req.body.usuario,
+            password: req.body.p1
+        });
+    }
 
     res.render('home');
 });

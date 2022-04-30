@@ -5,8 +5,7 @@
             <input type="password" placeholder="Contraseña" name="contra1"><br>
             <input type="password" placeholder="Contraseña" name="contra2"><br>
             <label><input type="radio" name="privilegios" value="Admin" checked="check">Administración</label><br>
-            <label><input type="radio" name="privilegios" value="Escritura">Escritura</label><br>
-            <label><input type="radio" name="privilegios" value="Lectura">Lectura</label><br>
+            <label><input type="radio" name="privilegios" value="Invitado">Sin Privilegios</label><br>
             <input type="submit" value="Crear Usuario">
         </form>
         {{else if privilegios}}
@@ -14,8 +13,7 @@
             <input type="text" placeholder="Usuario" name="usuario"><br>
             <input type="password" placeholder="Contraseña" name="contra1"><br>
             <input type="password" placeholder="Contraseña" name="contra2"><br>
-            <label><input type="radio" name="privilegios" value="Escritura" checked="check">Escritura</label><br>
-            <label><input type="radio" name="privilegios" value="Lectura">Lectura</label><br>
+            <label><input type="radio" name="privilegios" value="Invitado" checked="check">Sin Privilegios</label><br>
             <input type="submit" value="Crear Usuario">
         </form>
         {{else}}
