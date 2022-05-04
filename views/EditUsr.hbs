@@ -1,8 +1,8 @@
-<div style="margin-top: auto;">
+<div style="margin-top: auto; text-align: center;">
     <form action="/Guardar" method="post">
-        <input type="text" name="usuario" value="{{nombre}}"><br>
-        <input type="password" name="p1" value="{{password}}"><br>
-        <input type="password" name="p2" value="{{password}}"><br>
+        <label>{{nombre}}</label><br>
+        <input type="hidden" name="usuario" value="{{nombre}}"><br>
+        <input type="text" name="correo" value="{{correo}}"><br>
         {{#if superuser}}
 
         {{#if adm}}

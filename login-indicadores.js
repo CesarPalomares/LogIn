@@ -1,6 +1,17 @@
 const usuario = require('./modelos/usuario');
+const token = require('./modelos/tokens');
 
 const { Router } = require("express");
+const nodemailer = require('nodemailer');
+
+//Correo
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'tokenatort@gmail.com',
+      pass: 'tokenatort123roothelper'
+    }
+});
 
 
 const router = Router();
@@ -77,6 +88,22 @@ router.get('/Perfil', async (req, res) =>{
     }    
 });
 
+router.get('/token', async (req, res) => {
+    res.render('UsarToken');
+});
+
+router.get('/RegistroToken', async (req, res) =>{
+    var n = req.session.nombreToken;
+    req.session.nombreToken = undefined;
+
+    if(n != undefined){
+        res.render('RegistroConToken', {nombre: n});
+    }else{
+        res.redirect('/');
+    }
+    
+});
+
 
 /* POST */
 router.post('/', (req, res) => {
@@ -92,24 +119,33 @@ router.post('/home', (req, res) => {
 });
 
 router.post('/Registro', (req, res) => {
-    if(req.body.contra1 == req.body.contra2){
-        var nombre = req.body.usuario;
-        var password = req.body.contra1;
-        var privilegios = req.body.privilegios;
-        console.log(privilegios)
+    //Crea y guarda el token
+    var tkn = Math.floor(Math.random() * (1000000000+1000000) +1000000).toString();
+    var t1 = new token({
+        nombre: req.body.usuario,
+        token: tkn,
+        correo: req.body.correo,
+        privilegios: req.body.privilegios
+    });
+    t1.save();
 
-        const p1 = new usuario({
-            nombre: nombre,
-            password: password,
-            privilegios: privilegios
-        });
-        p1.save(function(err){
-            if(err) throw err;
-        });
-        res.redirect('/home');
-    }else{
-        res.redirect('/Registro');
-    }
+    //Manda token por correo
+    var mailOptions = {
+        from: 'tokenatort@gmail.com',
+        to: req.body.correo,
+        subject: 'Auth Tocken',
+        text: tkn
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+
+    res.redirect('/home');
 });
 
 router.post('/Modificar', async (req, res) => {
@@ -124,19 +160,20 @@ router.post('/Modificar', async (req, res) => {
     var adm = privilegios == "Admin";
     var invitado = privilegios == "Invitado";
 
-    res.render('EditUsr', {nombre: nombre,password: usr.password, superuser: superuser, adm: adm, invitado: invitado});
+    res.render('EditUsr', {nombre: nombre,correo: usr.correo, superuser: superuser, adm: adm, invitado: invitado});
 });
 
 router.post('/Guardar', async (req, res) => {
 
     if(req.body.privilegios != undefined){
         const u1 = await usuario.updateOne({nombre: req.session.usuarioMod}, {
+            correo : req.body.correo,
             nombre: req.body.usuario,
-            password: req.body.p1,
             privilegios: req.body.privilegios
         });
     }else{
         const u1 = await usuario.updateOne({nombre: req.session.usuarioMod}, {
+            correo : req.body.correo,
             nombre: req.body.usuario,
             password: req.body.p1
         });
@@ -163,6 +200,40 @@ router.post('/Perfil', async (req, res) =>{
         res.redirect('/home');
     }
     
+});
+
+router.post('/RegistroToken', async (req, res) =>{
+    var persona = (await token.find({token: req.body.token})).at(0);
+
+    if(persona != undefined){
+        req.session.nombreToken = persona.nombre;
+        res.redirect('/RegistroToken');
+    }else{
+        res.redirect('/token');
+    }
+});
+
+router.post('/introducirUser', async (req, res) =>{
+    if(req.body.p1 == req.body.p2){
+        //Encuentra el tocken con los datos del usuario
+        var t1 = (await token.find({nombre: req.body.nombre})).at(0);
+
+        //Crear usuario definitivo
+        var u1 = new usuario({
+            correo: t1.correo,
+            nombre: req.body.nombre,
+            password: req.body.p1,
+            privilegios: t1.privilegios
+        });
+        u1.save();
+
+        //Elimina token
+        await token.deleteOne({nombre: req.body.nombre});
+
+        res.redirect('/');
+    }else{
+        res.redirect('/token')
+    }
 });
 
 module.exports = router;
