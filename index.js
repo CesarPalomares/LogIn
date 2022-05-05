@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require("path");
 const handlebars = require('express-handlebars');
+const { helpers } = require('handlebars');
 
 
 
@@ -19,7 +20,14 @@ const exphbs = handlebars.create({
     extname: '.hbs',
     layoutsDir: path.join(app.get("views"), "layouts"),
     partialsDir: path.join(app.get("views"), "partials"),
-    defaultLayout:'main'
+    defaultLayout:'main',
+
+    //Helpers
+    helpers:{
+        ifEquals: function(a,b,opts){
+            return (a==b);
+        }
+    }
 });
 
 

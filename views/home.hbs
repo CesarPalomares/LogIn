@@ -3,9 +3,6 @@
     <form action="/home" method="post">
         <input type="submit" value="Crear Usuario">
     </form>
-    <form action="/Lista" method="get">
-        <input type="submit" value="Lista de Usuario">
-    </form>
     <form action="/Modificar" method="get">
         <input type="submit" value="Modificar Usuario">
     </form>
@@ -15,4 +12,7 @@
     <form action="/" method="get">
         <input type="submit" value="Log Out">
     </form>
+</div>
+<div>
+    {{>ListaUsuarios}}
 </div>

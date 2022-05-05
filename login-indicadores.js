@@ -26,7 +26,8 @@ router.get('/home', async (req, res) => {
     var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
     
     if(user.length > 0){
-        res.render('home');
+        var usuarios = await usuario.find().lean();
+        res.render('home', {test: usuarios, empresa: user.at(0).empresa});
     }else{
         res.redirect('/');
     }
@@ -38,19 +39,7 @@ router.get('/Registro', async (req, res) => {
     if(user.length > 0){
         var privilegios = user.at(0).privilegios == "Admin";
         var superuser = user.at(0).privilegios == "SuperUser";
-        res.render('crearUsuario', {superuser: superuser ,privilegios: privilegios});
-    }else{
-        res.redirect('/');
-    }
-});
-
-router.get('/Lista', async (req, res) => {
-    var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
-    
-    if(user.length > 0){
-        var usuarios = await usuario.find().lean();
-
-        res.render('ListaUsuarios', {test: usuarios});
+        res.render('crearUsuario', {superuser: superuser,empresa: user.at(0).empresa ,privilegios: privilegios});
     }else{
         res.redirect('/');
     }
@@ -60,11 +49,12 @@ router.get('/Modificar', async (req, res) => {
     var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
     
     if(user.length > 0){
+        var empresa = user.at(0).empresa;
 
         if(user.at(0).privilegios == "SuperUser"){
             var usuarios = await usuario.find({privilegios: {$nin: ["SuperUser"]}}).lean();
         }else{
-            var usuarios = await usuario.find({privilegios: {$nin: ["Admin", "SuperUser"]}}).lean();
+            var usuarios = await usuario.find({empresa: empresa, privilegios: {$nin: ["Admin", "SuperUser"]}}).lean();
         }
         
         var privilegios = user.at(0).privilegios == "Admin" || user.at(0).privilegios == "SuperUser";
@@ -123,6 +113,7 @@ router.post('/Registro', (req, res) => {
     var tkn = Math.floor(Math.random() * (1000000000+1000000) +1000000).toString();
     var t1 = new token({
         nombre: req.body.usuario,
+        empresa: req.body.empresa,
         token: tkn,
         correo: req.body.correo,
         privilegios: req.body.privilegios
@@ -169,23 +160,25 @@ router.post('/Guardar', async (req, res) => {
         const u1 = await usuario.updateOne({nombre: req.session.usuarioMod}, {
             correo : req.body.correo,
             nombre: req.body.usuario,
+            empresa: req.body.empresa,
             privilegios: req.body.privilegios
         });
     }else{
         const u1 = await usuario.updateOne({nombre: req.session.usuarioMod}, {
             correo : req.body.correo,
             nombre: req.body.usuario,
-            password: req.body.p1
+            password: req.body.p1,
+            empresa: req.body.empresa
         });
     }
 
-    res.render('home');
+    res.redirect('/home');
 });
 
 router.post('/Eliminar', async (req, res) => {
     await usuario.deleteOne({nombre: req.session.usuarioMod});
 
-    res.render('home');
+    res.redirect('/home');
 });
 
 router.post('/Perfil', async (req, res) =>{
@@ -223,6 +216,7 @@ router.post('/introducirUser', async (req, res) =>{
             correo: t1.correo,
             nombre: req.body.nombre,
             password: req.body.p1,
+            empresa: t1.empresa,
             privilegios: t1.privilegios
         });
         u1.save();

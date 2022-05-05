@@ -5,13 +5,13 @@
         <input type="text" name="correo" value="{{correo}}"><br>
         {{#if superuser}}
 
-        {{#if adm}}
-        <label><input type="radio" name="privilegios" value="Admin" checked="checked">Administración</label><br>
-        <label><input type="radio" name="privilegios" value="Invitado">Sin Privilegios</label><br>
-        {{else if invitado}}
-        <label><input type="radio" name="privilegios" value="Admin">Administración</label><br>
-        <label><input type="radio" name="privilegios" value="Invitado" checked="checked">Sin Privilegios</label><br>
-        {{/if}}
+            {{#if adm}}
+            <label><input type="radio" name="privilegios" value="Admin" checked="checked">Administración</label><br>
+            <label><input type="radio" name="privilegios" value="Invitado">Sin Privilegios</label><br>
+            {{else if invitado}}
+            <label><input type="radio" name="privilegios" value="Admin">Administración</label><br>
+            <label><input type="radio" name="privilegios" value="Invitado" checked="checked">Sin Privilegios</label><br>
+            {{/if}}
 
         {{/if}}
 

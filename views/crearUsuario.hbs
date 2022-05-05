@@ -5,6 +5,7 @@
             <input type="text" placeholder="Correo" name="correo"><br>
             <label><input type="radio" name="privilegios" value="Admin" checked="check">Administración</label><br>
             <label><input type="radio" name="privilegios" value="Invitado">Sin Privilegios</label><br>
+            <input type="text" name="empresa" placeholder="empresa"><br>
             <input type="submit" value="Crear Usuario">
         </form>
         {{else if privilegios}}
@@ -12,6 +13,7 @@
             <input type="text" placeholder="Usuario" name="usuario"><br>
             <input type="text" placeholder="Correo" name="correo"><br>
             <label><input type="radio" name="privilegios" value="Invitado" checked="check">Sin Privilegios</label><br>
+            <input type="hidden" name="empresa" value="{{empresa}}">
             <input type="submit" value="Crear Usuario">
         </form>
         {{else}}
