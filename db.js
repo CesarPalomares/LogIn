@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const empresa = require("./modelos/empresa");
 const usuario = require("./modelos/usuario");
 
 (async() => {
@@ -14,6 +15,7 @@ const usuario = require("./modelos/usuario");
             const s1 = new usuario({
                 nombre: "root",
                 password: "toor",
+                empresa: "AnySolution",
                 privilegios: "SuperUser"
             });
             s1.save(function(err){
@@ -23,6 +25,18 @@ const usuario = require("./modelos/usuario");
             console.log("Se ha creado un superusuario")
         }else if(superuser.length == 1){
             console.log("SuperUsuario Encontrado")
+        }
+
+        //Crea la empresa AnySolution si no existe
+        var AnySolution = await empresa.find({nombre: "AnySolution"});
+
+        if(AnySolution.length < 1){
+            var e1 = new empresa({
+                nombre: "AnySolution"
+            });
+            e1.save(function(err){
+                if(err) throw err;
+            });
         }
 
     }catch(error){

@@ -1,5 +1,6 @@
 const usuario = require('./modelos/usuario');
 const token = require('./modelos/tokens');
+const empresa = require('./modelos/empresa');
 
 const { Router } = require("express");
 const nodemailer = require('nodemailer');
@@ -9,7 +10,7 @@ var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'tokenatort@gmail.com',
-      pass: 'tokenatort123roothelper'
+      pass: 'bmikznxwyffojaeo'
     }
 });
 
@@ -21,29 +22,22 @@ const router = Router();
 router.get('/', (req, res) => {
     res.render('login');
 });
+//Se usa
 
 router.get('/home', async (req, res) => {
     var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
     
     if(user.length > 0){
         var usuarios = await usuario.find().lean();
-        res.render('home', {test: usuarios, empresa: user.at(0).empresa});
+        var privilegiado = user.at(0).privilegios == "SuperUser" || user.at(0).privilegios == "Gestion";
+        var admin = user.at(0).privilegios == "SuperUser" || user.at(0).privilegios == "Gestion" || user.at(0).privilegios == "Admin";
+        res.render('home', {test: usuarios, empresa: user.at(0).empresa, privilegiado: privilegiado, admin: admin});
     }else{
         res.redirect('/');
     }
 });
+//Se usa
 
-router.get('/Registro', async (req, res) => {
-    var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
-    
-    if(user.length > 0){
-        var privilegios = user.at(0).privilegios == "Admin";
-        var superuser = user.at(0).privilegios == "SuperUser";
-        res.render('crearUsuario', {superuser: superuser,empresa: user.at(0).empresa ,privilegios: privilegios});
-    }else{
-        res.redirect('/');
-    }
-});
 
 router.get('/Modificar', async (req, res) => {
     var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
@@ -64,6 +58,7 @@ router.get('/Modificar', async (req, res) => {
         res.redirect('/');
     }    
 });
+//Se usa
 
 router.get('/Perfil', async (req, res) =>{
     var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
@@ -77,10 +72,12 @@ router.get('/Perfil', async (req, res) =>{
         res.redirect('/');
     }    
 });
+//Se usa
 
 router.get('/token', async (req, res) => {
     res.render('UsarToken');
 });
+//Se usa
 
 router.get('/RegistroToken', async (req, res) =>{
     var n = req.session.nombreToken;
@@ -93,6 +90,29 @@ router.get('/RegistroToken', async (req, res) =>{
     }
     
 });
+
+router.get('/Empresas', async (req, res) => {
+    var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
+    
+    if(user.length > 0){
+        var empresas = await empresa.find().lean();
+        res.render('Empresas', {empresas: empresas});
+    }else{
+        res.redirect('/');
+    }
+});
+//Se usa
+
+router.get('/CrearEmpresa', async (req, res) => {
+    var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
+    
+    if(user.length > 0){
+        res.render('CrearEmpresa');
+    }else{
+        res.redirect('/');
+    }
+});
+//Se usa
 
 
 /* POST */
@@ -227,6 +247,32 @@ router.post('/introducirUser', async (req, res) =>{
         res.redirect('/');
     }else{
         res.redirect('/token')
+    }
+});
+
+router.post('/CrearEmpresa', async (req, res) => {
+    var emp = new empresa({
+        nombre: req.body.nombre
+    })
+
+    emp.save();
+    res.redirect('/Empresas')
+});
+
+router.post('/Usuarios', async (req, res) => {
+    var personas = await usuario.find({empresa: req.body.empresa}).lean();
+
+    res.render('ListaUsuarios', {usuarios: personas, empresa: req.body.empresa});
+});
+
+router.post('/Registroo', async (req, res) => {
+    var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
+    
+    if(user.length > 0){
+        var gestion = user.at(0).privilegios == "SuperUser" || user.at(0).privilegios == "Gestion";
+        res.render('crearUsuario', {empresa: req.body.empresa, gestion: gestion});
+    }else{
+        res.redirect('/');
     }
 });
 

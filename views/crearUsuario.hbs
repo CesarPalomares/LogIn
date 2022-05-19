@@ -1,22 +1,14 @@
+<h3 style="text-align:center;">Crear Usuario</h3>
 <div style="background-color:coral; margin: auto; width: fit-content; padding: 15px;">
-        {{#if superuser}}
-        <form action="/Registro" method="post">
-            <input type="text" placeholder="Usuario" name="usuario"><br>
-            <input type="text" placeholder="Correo" name="correo"><br>
-            <label><input type="radio" name="privilegios" value="Admin" checked="check">Administración</label><br>
-            <label><input type="radio" name="privilegios" value="Invitado">Sin Privilegios</label><br>
-            <input type="text" name="empresa" placeholder="empresa"><br>
-            <input type="submit" value="Crear Usuario">
-        </form>
-        {{else if privilegios}}
-        <form action="/Registro" method="post">
-            <input type="text" placeholder="Usuario" name="usuario"><br>
-            <input type="text" placeholder="Correo" name="correo"><br>
-            <label><input type="radio" name="privilegios" value="Invitado" checked="check">Sin Privilegios</label><br>
-            <input type="hidden" name="empresa" value="{{empresa}}">
-            <input type="submit" value="Crear Usuario">
-        </form>
-        {{else}}
-        <h2 style="color: brown;">SOLO ADMINISTRACIÓN</h2>
+    <form action="/Registro" method="post">
+        <input type="text" placeholder="Usuario" name="usuario"><br>
+        <input type="text" placeholder="Correo" name="correo"><br>
+        {{#if gestion}}
+            <label><input type="radio" name="privilegios" value="Gestion">Gestion</label><br>
         {{/if}}
-    </div>
+        <label><input type="radio" name="privilegios" value="Admin">Administración</label><br>
+        <label><input type="radio" name="privilegios" value="Invitado" checked="check">Sin Privilegios</label><br>
+        <input type="hidden" name="empresa" value="{{{empresa}}}" placeholder="empresa"><br>
+        <input type="submit" value="Crear Usuario">
+    </form>
+</div>

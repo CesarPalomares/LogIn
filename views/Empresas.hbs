@@ -1,0 +1,11 @@
+<a href="/home" class="previous round">&#8249;</a>
+<div style="min-height: 500px; width: 80%; margin-top: 20px;">
+    <form action="/CrearEmpresa" method="get">
+        <input type="submit" value="Crear Empresa">
+    </form><br>
+    {{#each empresas}}
+        <form style="float:left;" action="/Usuarios" method="post">
+            <input type="submit" name="empresa" value="{{{nombre}}}" style="margin: 5px; background-color: rgb(231, 80, 80); border:none; font-size:20px;">
+        </form>
+    {{/each}}
+</div>

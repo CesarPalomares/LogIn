@@ -1,6 +1,13 @@
-<h3>Usuarios</h3>
-<ul>
-    {{#each test}}
-    <li>{{nombre}}</li>
+<h3 style="text-align: center;">Usuarios</h3>
+<a href="/Empresas" class="previous round">&#8249;</a>
+<div>
+    <form action="/Registroo" method="post">
+        <input type="hidden" name="empresa" value="{{{empresa}}}">
+        <input type="submit" value="Nuevo Usuario" style="background-color:rgb(92, 255, 92);">
+    </form>
+    {{#each usuarios}}
+        <form action="/Modificar" method="post">
+            <input type="submit" value="{{nombre}}" name="valor">
+        </form>
     {{/each}}
-</ul>
+</div>
