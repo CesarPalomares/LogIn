@@ -5,16 +5,16 @@
             <input type="hidden" name="empresa" value="{{empresa}}">
             <input type="submit" value="Crear Usuario">
         </form>
+        <form action="/Ajustes" method="get">
+            <input type="submit" value="Ajustes">
+        </form>
     {{/if}}
-    <form action="/Perfil" method="get">
-        <input type="submit" value="Peril">
-    </form>
     {{#if privilegiado}}
         <form action="/Empresas" method="get">
             <input type="submit" value="Empresas">
         </form>
     {{/if}}
-    <form action="/" method="get">
+    <form action="/userHub" method="get">
         <input type="submit" value="Log Out">
     </form>
 </div>

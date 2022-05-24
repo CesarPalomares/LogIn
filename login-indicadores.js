@@ -4,6 +4,7 @@ const empresa = require('./modelos/empresa');
 
 const { Router } = require("express");
 const nodemailer = require('nodemailer');
+const { updateOne } = require('./modelos/usuario');
 
 //Correo
 var transporter = nodemailer.createTransport({
@@ -114,6 +115,28 @@ router.get('/CrearEmpresa', async (req, res) => {
 });
 //Se usa
 
+router.get('/userHub', async (req, res) =>{
+    var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
+    
+    if(user.length > 0){
+        var emp = (await empresa.find({nombre: user.at(0).empresa})).at(0);
+        res.render('userHub', {fondo: emp.fondo, centro: emp.centro, barra: emp.barra, nombre: req.session.nombre, contra: req.session.password});
+    }else{
+        res.redirect('/');
+    }  
+});
+
+router.get('/Ajustes', async (req, res) =>{
+    var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
+    
+    if(user.length > 0){
+        var emp = (await empresa.find({nombre: user.at(0).empresa})).at(0);
+        res.render('ajustes', {fondo: emp.fondo, centro: emp.centro, barra: emp.barra});
+    }else{
+        res.redirect('/');
+    }  
+});
+
 
 /* POST */
 router.post('/', (req, res) => {
@@ -121,7 +144,7 @@ router.post('/', (req, res) => {
     var contra = req.body.p1;
     req.session.nombre = nombre;
     req.session.password = contra;
-    res.redirect('home');
+    res.redirect('/userHub');
 });
 
 router.post('/home', (req, res) => {
@@ -274,6 +297,19 @@ router.post('/Registroo', async (req, res) => {
     }else{
         res.redirect('/');
     }
+});
+
+router.post('/color', async (req, res) =>{
+    var user = await usuario.find({nombre: req.session.nombre, password: req.session.password}).lean();
+
+    var emp = await empresa.updateOne({nombre: user.at(0).empresa}, {
+        fondo: req.body.fondo,
+        centro: req.body.centro,
+        barra: req.body.barra
+    });
+
+    console.log(req.body.fondo);
+    res.redirect('/home');
 });
 
 module.exports = router;

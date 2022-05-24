@@ -1,0 +1,90 @@
+<style>
+    #desplegable{
+        width: 50px;
+    }
+
+    #sideBar{
+        background-color: aquamarine;
+        background-color: {{barra}};
+        padding: 0;
+        width: 150px;
+        height: 500px;
+        margin: none;
+        margin-top: 0;
+        float: left;
+        display: none;
+    }
+
+    #cerrar{
+        float: right;
+        margin: 5px;
+        background-color: rgb(190, 55, 55);
+    }
+
+    #logout{
+        float: right;
+    }
+
+    #centro{
+        width: 50%;
+        margin: auto;
+        background-color: bisque;
+        background-color: {{centro}};
+    }
+
+    .imagenCentro{
+        width: 50%;
+    }
+
+    body{
+        background-color:aliceblue;
+        background-color: {{fondo}};
+    }
+
+    button{
+        background-color: rgb(73, 136, 255);
+        padding: 5px;
+        border-radius: 10px;
+        border: none;
+        margin: 5px;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div id="sideBar">
+    <button id="cerrar" onclick="hide()">Cerrar&times;</button><br><br>
+    <a href="/Perfil"><button><i class="fa fa-user"></i> Perfil</button></a>
+    <a href="/home"><button><i class="fa fa-cog"></i> Administración</button></a>
+    <a href=""><button><i class="fa fa-mobile-phone"></i> Aplicaciones</button></a>
+</div>
+<a href="javascript:void(0)" onclick="show()" id="iconoBarra"><img id="desplegable" src="imagenes/desplegable.png" alt="qqq"></a>
+
+
+<a href="/" id="logout"><img style="width: 20px;" src="imagenes/logout.png" alt=""></a>
+
+
+<!--Cesntro-->
+<div id="centro">
+    <form action="//localhost:5000/Login" method="post">
+        <input type="hidden" name="nombre" value="{{nombre}}">
+        <input type="hidden" name="contra" value="{{contra}}">
+        <input type="submit" value="NADIA DTI">
+    </form>
+</div>
+
+
+<!--Scripts-->
+<script>
+    function hide(){
+        document.getElementById('sideBar').style.display = "none";
+        document.getElementById('iconoBarra').style.display = "block";
+        document.getElementById('iconoBarra').style.width = "fit-content";
+        document.getElementById('iconoBarra').style.float = "left";
+    }
+
+    function show(){
+        document.getElementById('sideBar').style.display = "block";
+        document.getElementById('iconoBarra').style.display = "none";
+    }
+</script>

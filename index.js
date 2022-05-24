@@ -12,6 +12,8 @@ const { helpers } = require('handlebars');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/imagenes", express.static(path.join(__dirname, "/public/imagenes")));
+
 
 //HANDLEBARS
 app.set("views", path.join(__dirname, "views"));
