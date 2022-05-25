@@ -70,7 +70,8 @@ router.get('/Perfil', async (req, res) =>{
         var usuarios = await usuario.find({ nombre: { $ne: req.session.nombre}}).lean();
         var privilegios = user.at(0).privilegios == "Admin";
 
-        res.render('Perfil',{usuario: req.session.nombre});
+        var emp = (await empresa.find({nombre: user.at(0).empresa})).at(0);
+        res.render('Perfil',{usuario: req.session.nombre, fondo: emp.fondo, centro: emp.centro});
     }else{
         res.redirect('/');
     }    

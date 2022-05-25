@@ -1,5 +1,19 @@
+<style>
+    body{
+        background-color:{{fondo}};
+    }
+
+    #centro{
+        background-color:coral;
+        margin: auto;
+        width: fit-content;
+        padding: 15px;
+        background-color:{{centro}};
+    }
+</style>
+
 <h3 style="text-align: center;">Perfil</h3>
-<div style="background-color:coral; margin: auto; width: fit-content; padding: 15px;">
+<div id="centro">
     <form action="/Perfil" method="post">
         <input type="text" name="usuario" placeholder="usuario" value="{{usuario}}"><br><br>
         <input type="text" name="password1" placeholder="contraseña nueva"><br>
