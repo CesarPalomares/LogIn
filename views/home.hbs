@@ -3,14 +3,53 @@
         background-color: {{fondo}};
     }
 
+    #desplegable{
+        width: 50px;
+    }
+
+    #sideBar{
+        background-color: aquamarine;
+        padding: 0;
+        width: 150px;
+        height: 500px;
+        margin: none;
+        margin-top: 0;
+        float: left;
+        display: none;
+        position: absolute;
+
+        background-color: {{barra}};
+    }
+
+    #resto{
+        padding: 0%;
+        width: 90%;
+        margin-top: 0%;
+        float: right;
+        background-color:rgba(240, 248, 255, 0);
+    }
+
+    #cerrar{
+        float: right;
+        margin: 5px;
+        background-color: rgb(190, 55, 55);
+    }
+
+    .botonesBarra{
+        background-color: rgb(73, 136, 255);
+        padding: 5px;
+        border-radius: 10px;
+        border: none;
+        margin: 5px;
+    }
+
     #barra{
-        width:100px;
-        margin-top: auto; 
-        height: 500px; 
+        width:80%;
+        height: 50px;
+        margin-top: auto;
+        margin-bottom: 20px;
         padding: 10px; 
         background-color: rgb(186, 186, 186);
-        background-color: {{barra}}; 
-        float: left;
     }
 
     #centro{
@@ -24,29 +63,64 @@
         background-color: {{centro}};
     }
 
+    .iconoBarra{
+        float: left;
+    }
+
+    form{
+        float: left;
+    }
 
 </style>
 
-<h1>Herramientas de Usuario</h1>
-<div id="barra">
-    {{#if admin}}
-        <form action="/Registroo" method="post">
-            <input type="hidden" name="empresa" value="{{empresa}}">
-            <input type="submit" value="Crear Usuario">
-        </form>
-        <form action="/Ajustes" method="get">
-            <input type="submit" value="Ajustes">
-        </form>
-    {{/if}}
-    {{#if privilegiado}}
-        <form action="/Empresas" method="get">
-            <input type="submit" value="Empresas">
-        </form>
-    {{/if}}
-    <form action="/userHub" method="get">
-        <input type="submit" value="Hub">
-    </form>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div id="sideBar">
+    <button id="cerrar" class="botonesBarra" onclick="hide()">Cerrar&times;</button><br><br>
+    <a href="/Perfil"><button class="botonesBarra"><i class="fa fa-user"></i> Perfil</button></a>
+    <a href="/home"><button class="botonesBarra"><i class="fa fa-cog"></i> Administración</button></a>
+    <a href="/userHub"><button class="botonesBarra"><i class="fa fa-mobile-phone"></i> Aplicaciones</button></a>
 </div>
-<div id="centro" style="">
-    {{>ListaUsuarios}}
+<a href="javascript:void(0)" onclick="show()" id="iconoBarra"><img id="desplegable" src="imagenes/desplegable.png" alt="qqq"></a>
+
+<div id="resto">
+    <h1>Administración</h1>
+    <div id="barra">
+        {{#if admin}}
+            <form action="/Registroo" method="post">
+                <input type="hidden" name="empresa" value="{{empresa}}">
+                <input type="submit" value="Crear Usuario">
+            </form>
+            <form action="/Ajustes" method="get">
+                <input type="submit" value="Ajustes">
+            </form>
+        {{/if}}
+        {{#if privilegiado}}
+            <form action="/Empresas" method="get">
+                <input type="submit" value="Empresas">
+            </form>
+        {{/if}}
+        <form action="/userHub" method="get">
+            <input type="submit" value="Hub">
+        </form>
+    </div>
+    <div id="centro" style="">
+        {{>ListaUsuarios}}
+    </div>
 </div>
+
+
+<!--Scripts-->
+<script>
+    function hide(){
+        document.getElementById('sideBar').style.display = "none";
+        document.getElementById('iconoBarra').style.display = "block";
+        document.getElementById('iconoBarra').style.width = "fit-content";
+        document.getElementById('iconoBarra').style.float = "left";
+    }
+
+    function show(){
+        document.getElementById('sideBar').style.display = "block";
+        document.getElementById('iconoBarra').style.display = "none";
+    }
+</script>

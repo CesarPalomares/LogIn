@@ -1,11 +1,14 @@
 <style>
+    #iconoBarra{
+        float: left;
+    }
+
     #desplegable{
         width: 50px;
     }
 
     #sideBar{
         background-color: aquamarine;
-        background-color: {{barra}};
         padding: 0;
         width: 150px;
         height: 500px;
@@ -13,6 +16,9 @@
         margin-top: 0;
         float: left;
         display: none;
+        position: absolute;
+
+        background-color: {{barra}};
     }
 
     #cerrar{
@@ -27,7 +33,9 @@
 
     #centro{
         width: 50%;
-        margin: auto;
+        margin-top: 0%;
+        margin-right: auto;
+        margin-left: auto;
         background-color: bisque;
         background-color: {{centro}};
     }
@@ -56,7 +64,7 @@
     <button id="cerrar" onclick="hide()">Cerrar&times;</button><br><br>
     <a href="/Perfil"><button><i class="fa fa-user"></i> Perfil</button></a>
     <a href="/home"><button><i class="fa fa-cog"></i> Administración</button></a>
-    <a href=""><button><i class="fa fa-mobile-phone"></i> Aplicaciones</button></a>
+    <a href="/userHub"><button><i class="fa fa-mobile-phone"></i> Aplicaciones</button></a>
 </div>
 <a href="javascript:void(0)" onclick="show()" id="iconoBarra"><img id="desplegable" src="imagenes/desplegable.png" alt="qqq"></a>
 
