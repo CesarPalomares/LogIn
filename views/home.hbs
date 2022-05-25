@@ -1,5 +1,34 @@
+<style>
+    body{
+        background-color: {{fondo}};
+    }
+
+    #barra{
+        width:100px;
+        margin-top: auto; 
+        height: 500px; 
+        padding: 10px; 
+        background-color: rgb(186, 186, 186);
+        background-color: {{barra}}; 
+        float: left;
+    }
+
+    #centro{
+        float:none;
+        margin-left:180px;
+        margin-right:25px;
+        margin-top:auto;
+        margin-bottom:25px;
+        width:auto;
+        height:400px;
+        background-color: {{centro}};
+    }
+
+
+</style>
+
 <h1>Herramientas de Usuario</h1>
-<div style="width:100px;margin-top: auto; height: 500px; padding: 10px; background-color: rgb(186, 186, 186); float: left;">
+<div id="barra">
     {{#if admin}}
         <form action="/Registroo" method="post">
             <input type="hidden" name="empresa" value="{{empresa}}">
@@ -15,9 +44,9 @@
         </form>
     {{/if}}
     <form action="/userHub" method="get">
-        <input type="submit" value="Log Out">
+        <input type="submit" value="Hub">
     </form>
 </div>
-<div style="float:none; margin-left:180px; margin-right:25px; margin-top:auto; margin-bottom:25px; width:auto; height:400px;">
+<div id="centro" style="">
     {{>ListaUsuarios}}
 </div>

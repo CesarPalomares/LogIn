@@ -29,10 +29,12 @@ router.get('/home', async (req, res) => {
     var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
     
     if(user.length > 0){
+        var emp = (await empresa.find({nombre: user.at(0).empresa})).at(0);
+
         var usuarios = await usuario.find().lean();
         var privilegiado = user.at(0).privilegios == "SuperUser" || user.at(0).privilegios == "Gestion";
         var admin = user.at(0).privilegios == "SuperUser" || user.at(0).privilegios == "Gestion" || user.at(0).privilegios == "Admin";
-        res.render('home', {test: usuarios, empresa: user.at(0).empresa, privilegiado: privilegiado, admin: admin});
+        res.render('home', {fondo: emp.fondo,barra: emp.barra,centro:emp.centro , test: usuarios, empresa: user.at(0).empresa, privilegiado: privilegiado, admin: admin});
     }else{
         res.redirect('/');
     }
@@ -293,7 +295,8 @@ router.post('/Registroo', async (req, res) => {
     
     if(user.length > 0){
         var gestion = user.at(0).privilegios == "SuperUser" || user.at(0).privilegios == "Gestion";
-        res.render('crearUsuario', {empresa: req.body.empresa, gestion: gestion});
+        var emp = (await empresa.find({nombre: user.at(0).empresa})).at(0);
+        res.render('crearUsuario', {fondo: emp.fondo, centro: emp.centro, empresa: req.body.empresa, gestion: gestion});
     }else{
         res.redirect('/');
     }
@@ -309,7 +312,7 @@ router.post('/color', async (req, res) =>{
     });
 
     console.log(req.body.fondo);
-    res.redirect('/home');
+    res.redirect('/Ajustes');
 });
 
 module.exports = router;

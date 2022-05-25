@@ -1,5 +1,19 @@
+<style>
+    body{
+        background-color: {{fondo}};
+    }
+
+    #centro{
+        background-color:coral;
+        background-color: {{centro}};
+        margin: auto;
+        width: fit-content;
+        padding: 15px;
+    }
+</style>
+
 <h3 style="text-align:center;">Crear Usuario</h3>
-<div style="background-color:coral; margin: auto; width: fit-content; padding: 15px;">
+<div id="centro">
     <form action="/Registro" method="post">
         <input type="text" placeholder="Usuario" name="usuario"><br>
         <input type="text" placeholder="Correo" name="correo"><br>

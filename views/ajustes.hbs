@@ -1,4 +1,14 @@
-<div>
+<style>
+    body{
+        background-color: {{fondo}};
+    }
+
+    #centro{
+        background-color: {{centro}};
+    }
+</style>
+
+<div id="centro">
     <form action="/color" method="post">
         <label>Fondo: </label><input type="color" name="fondo" value="{{fondo}}"><br>
         <label>Centro: </label><input type="color" name="centro" value="{{centro}}"><br>
