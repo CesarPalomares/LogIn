@@ -10,7 +10,7 @@
     #sideBar{
         background-color: aquamarine;
         padding: 0;
-        width: 150px;
+        width: 200px;
         height: 500px;
         margin: none;
         margin-top: 0;
@@ -56,15 +56,19 @@
         border: none;
         margin: 5px;
     }
+
+    .botonesSideBar{
+        width: 150px;
+    }
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div id="sideBar">
     <button id="cerrar" onclick="hide()">Cerrar&times;</button><br><br>
-    <a href="/Perfil"><button><i class="fa fa-user"></i> Perfil</button></a>
-    <a href="/home"><button><i class="fa fa-cog"></i> Administración</button></a>
-    <a href="/userHub"><button><i class="fa fa-mobile-phone"></i> Aplicaciones</button></a>
+    <a href="/Perfil"><button class="botonesSideBar"><i class="fa fa-user"></i> Perfil</button></a>
+    <a href="/home"><button class="botonesSideBar"><i class="fa fa-cog"></i> Administración</button></a>
+    <a href="/userHub"><button class="botonesSideBar"><i class="fa fa-mobile-phone"></i> Aplicaciones</button></a>
 </div>
 <a href="javascript:void(0)" onclick="show()" id="iconoBarra"><img id="desplegable" src="imagenes/desplegable.png" alt="qqq"></a>
 
@@ -74,11 +78,22 @@
 
 <!--Cesntro-->
 <div id="centro">
-    <form action="//localhost:5000/Login" method="post">
-        <input type="hidden" name="nombre" value="{{nombre}}">
-        <input type="hidden" name="contra" value="{{contra}}">
-        <input type="submit" value="NADIA DTI">
+    <form action="/addApp" method="get">
+        <input style="background-color: greenyellow;" type="submit" value="Añadir Aplicacion">
     </form>
+
+    {{#each app}}
+        <form style="float: left;" action="{{{direccion}}}" method="post">
+            <input type="hidden" name="nombre" value="{{../nombre}}">
+            <input type="hidden" name="contra" value="{{../contra}}">
+            <input type="submit" value="{{{nombre}}}">
+        </form>
+
+        <form action="/modificarApp" method="post">
+            <input type="hidden" name="nombre" value="{{nombre}}">
+            <input type="submit" value="Edit">
+        </form><br>
+    {{/each}}
 </div>
 
 

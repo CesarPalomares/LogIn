@@ -21,12 +21,11 @@
 
 <a href="/userHub"><button id="volver">&#8249;</button></a>
 
-<h3 style="text-align: center;">Perfil</h3>
+<h3 style="text-align: center;">Crear Applicacion</h3>
 <div id="centro">
-    <form action="/Perfil" method="post">
-        <input type="text" name="usuario" placeholder="usuario" value="{{usuario}}"><br><br>
-        <input type="text" name="password1" placeholder="contraseña nueva"><br>
-        <input type="text" name="password2" placeholder="contraseña nueva"><br><br>
-        <input type="submit" value="Guardar cambios">
+    <form action="/addApp" method="post">
+        <input type="text" placeholder="nombre" name="nombre"><br>
+        <input type="text" placeholder="enlace" name="enlace"><br>
+        <input type="submit" value="Guardar Appliacion">
     </form>
 </div>

@@ -5,6 +5,7 @@ const empresa = require('./modelos/empresa');
 const { Router } = require("express");
 const nodemailer = require('nodemailer');
 const { updateOne } = require('./modelos/usuario');
+const aplicacion = require('./modelos/aplicacion');
 
 //Correo
 var transporter = nodemailer.createTransport({
@@ -123,7 +124,8 @@ router.get('/userHub', async (req, res) =>{
     
     if(user.length > 0){
         var emp = (await empresa.find({nombre: user.at(0).empresa})).at(0);
-        res.render('userHub', {fondo: emp.fondo, centro: emp.centro, barra: emp.barra, nombre: req.session.nombre, contra: req.session.password});
+        var apps = await aplicacion.find().lean();
+        res.render('userHub', {fondo: emp.fondo, centro: emp.centro, barra: emp.barra, nombre: req.session.nombre, contra: req.session.password, app: apps});
     }else{
         res.redirect('/');
     }  
@@ -138,6 +140,17 @@ router.get('/Ajustes', async (req, res) =>{
     }else{
         res.redirect('/');
     }  
+});
+
+router.get('/addApp', async (req, res) => {
+    var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
+    
+    if(user.length > 0){
+        var emp = (await empresa.find({nombre: user.at(0).empresa})).at(0);
+        res.render('addApp', {fondo: emp.fondo, centro: emp.centro, barra: emp.barra});
+    }else{
+        res.redirect('/');
+    } 
 });
 
 
@@ -234,9 +247,9 @@ router.post('/Perfil', async (req, res) =>{
             password: req.body.password1
         });
     
-        res.render('home');
+        res.redirect('/home')
     }else{
-        res.redirect('/home');
+        res.redirect('/Perfil');
     }
     
 });
@@ -314,6 +327,44 @@ router.post('/color', async (req, res) =>{
 
     console.log(req.body.fondo);
     res.redirect('/Ajustes');
+});
+
+router.post('/addApp', async (req, res) => {
+
+    var app = new aplicacion({
+        nombre: req.body.nombre,
+        direccion: req.body.enlace+"Login"
+    });
+    app.save();
+
+    res.redirect('/userHub');
+});
+
+router.post('/modificarApp', async (req, res) => {
+    var user = await usuario.find({nombre: req.session.nombre, password: req.session.password});
+    
+    if(user.length > 0){
+        var emp = (await empresa.find({nombre: user.at(0).empresa})).at(0);
+        var app = (await aplicacion.find({nombre: req.body.nombre})).at(0);
+        res.render('modificarApp', {fondo: emp.fondo, centro: emp.centro, nombre: app.nombre, direccion: app.direccion});
+    }else{
+        res.redirect('/');
+    }
+});
+
+router.post('/modificarGuardarApp', async (req, res) => {
+    await aplicacion.updateOne({nombre: req.body.nombreInicial},{
+        nombre: req.body.nombre,
+        direccion: req.body.enlace
+    });
+
+    res.redirect('/userHub');
+});
+
+router.post('/eliminarApp', async (req, res) => {
+    await aplicacion.deleteOne({nombre: req.body.nombre});
+
+    res.redirect('/userHub');
 });
 
 module.exports = router;

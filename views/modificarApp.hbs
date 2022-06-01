@@ -1,0 +1,37 @@
+<style>
+    body{
+        background-color:{{fondo}};
+    }
+
+    #centro{
+        background-color:coral;
+        margin: auto;
+        width: fit-content;
+        padding: 15px;
+        background-color:{{centro}};
+    }
+
+    #volver{
+        background-color: coral;
+        border-radius: 10px;
+        font-size: large;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<a href="/userHub"><button id="volver">&#8249;</button></a>
+
+<h3 style="text-align: center;">Modificar Applicacion</h3>
+<div id="centro">
+    <form action="/modificarGuardarApp" method="post">
+        <input type="hidden" name="nombreInicial" value="{{nombre}}">
+        <input type="text" placeholder="nombre" name="nombre" value="{{nombre}}"><br>
+        <input type="text" placeholder="enlace" name="enlace" value="{{direccion}}"><br>
+        <input type="submit" value="Guardar Appliacion">
+    </form>
+
+    <form action="/eliminarApp" method="post">
+        <input type="hidden" name="nombre" value="{{nombre}}">
+        <input style="background-color:brown;" type="submit" value="Eliminar">
+    </form>
+</div>

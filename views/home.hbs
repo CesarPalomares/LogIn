@@ -3,6 +3,11 @@
         background-color: {{fondo}};
     }
 
+    h1{
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     #desplegable{
         width: 50px;
     }
@@ -10,7 +15,7 @@
     #sideBar{
         background-color: aquamarine;
         padding: 0;
-        width: 150px;
+        width: 200px;
         height: 500px;
         margin: none;
         margin-top: 0;
@@ -33,6 +38,7 @@
         float: right;
         margin: 5px;
         background-color: rgb(190, 55, 55);
+        width: 50px;
     }
 
     .botonesBarra{
@@ -41,25 +47,26 @@
         border-radius: 10px;
         border: none;
         margin: 5px;
+        width: 150px;
     }
 
     #barra{
-        width:80%;
+        width:fit-content;
         height: 50px;
         margin-top: auto;
         margin-bottom: 20px;
+        margin-left:auto;
+        margin-right: auto;
         padding: 10px; 
-        background-color: rgb(186, 186, 186);
+        background-color: rgba(186, 186, 186, 0);
     }
 
     #centro{
-        float:none;
-        margin-left:180px;
-        margin-right:25px;
+        margin-left:auto;
         margin-top:auto;
         margin-bottom:25px;
-        width:auto;
-        height:400px;
+        width:60%;
+        min-height:200px;
         background-color: {{centro}};
     }
 
@@ -69,6 +76,12 @@
 
     form{
         float: left;
+    }
+
+    .botonesExtra{
+        width: 150px;
+        height: 50px;
+        font-size: medium;
     }
 
 </style>
@@ -89,22 +102,22 @@
         {{#if admin}}
             <form action="/Registroo" method="post">
                 <input type="hidden" name="empresa" value="{{empresa}}">
-                <input type="submit" value="Crear Usuario">
+                <input class="botonesExtra" type="submit" value="Crear Usuario">
             </form>
             <form action="/Ajustes" method="get">
-                <input type="submit" value="Ajustes">
+                <input class="botonesExtra" type="submit" value="Ajustes">
             </form>
         {{/if}}
         {{#if privilegiado}}
             <form action="/Empresas" method="get">
-                <input type="submit" value="Empresas">
+                <input class="botonesExtra" type="submit" value="Empresas">
             </form>
         {{/if}}
         <form action="/userHub" method="get">
-            <input type="submit" value="Hub">
+            <input class="botonesExtra" type="submit" value="Hub">
         </form>
     </div>
-    <div id="centro" style="">
+    <div id="centro">
         {{>ListaUsuarios}}
     </div>
 </div>
