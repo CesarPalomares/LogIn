@@ -4,7 +4,7 @@ const usuario = require("./modelos/usuario");
 
 (async() => {
     try{
-        const db = await mongoose.connect("mongodb://127.0.0.1:27017/Users")
+        const db = await mongoose.connect("mongodb://127.0.0.1:27017/Nadia-Users")
         console.log("DB connected", db.connection.name)
 
         //Busca si el superusuario existe (Si no, lo crea)

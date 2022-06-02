@@ -5,7 +5,8 @@ const usr = new Schema({
     nombre : String, 
     password: String,
     empresa: String,
-    privilegios: String
+    privilegios: String,
+    aplicaciones: Array
 }, {
     versionKey: false
 });

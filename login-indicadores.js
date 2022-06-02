@@ -124,8 +124,20 @@ router.get('/userHub', async (req, res) =>{
     
     if(user.length > 0){
         var emp = (await empresa.find({nombre: user.at(0).empresa})).at(0);
-        var apps = await aplicacion.find().lean();
-        res.render('userHub', {fondo: emp.fondo, centro: emp.centro, barra: emp.barra, nombre: req.session.nombre, contra: req.session.password, app: apps});
+        var gestion = user.at(0).privilegios == "SuperUser" || user.at(0).privilegios == "Gestion";
+
+        //Comprueba a que aplicaciones tiene acceso
+        var apps;
+        if(gestion){
+            apps = await aplicacion.find().lean();
+        }else{
+            var appsPermitidas = user.at(0).aplicaciones.toArray();
+            console.log(typeof appsPermitidas)
+            apps = await aplicacion.find({nombre: {$in: appsPermitidas}}).lean();
+        }
+        
+
+        res.render('userHub', {gestion: gestion, fondo: emp.fondo, centro: emp.centro, barra: emp.barra, nombre: req.session.nombre, contra: req.session.password, app: apps});
     }else{
         res.redirect('/');
     }  

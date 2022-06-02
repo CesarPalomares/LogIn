@@ -49,6 +49,10 @@
         background-color: {{fondo}};
     }
 
+    h1{
+        text-align: center;
+    }
+
     button{
         background-color: rgb(73, 136, 255);
         padding: 5px;
@@ -75,12 +79,15 @@
 
 <a href="/" id="logout"><img style="width: 20px;" src="imagenes/logout.png" alt=""></a>
 
-
+<h1>Aplicaciones</h1>
 <!--Cesntro-->
 <div id="centro">
-    <form action="/addApp" method="get">
-        <input style="background-color: greenyellow;" type="submit" value="Añadir Aplicacion">
-    </form>
+
+    {{#if gestion}}
+        <form action="/addApp" method="get">
+            <input style="background-color: greenyellow;" type="submit" value="Añadir Aplicacion">
+        </form><br>
+    {{/if}}
 
     {{#each app}}
         <form style="float: left;" action="{{{direccion}}}" method="post">
@@ -89,10 +96,14 @@
             <input type="submit" value="{{{nombre}}}">
         </form>
 
-        <form action="/modificarApp" method="post">
-            <input type="hidden" name="nombre" value="{{nombre}}">
-            <input type="submit" value="Edit">
-        </form><br>
+        {{#if ../gestion}}
+            <form action="/modificarApp" method="post">
+                <input type="hidden" name="nombre" value="{{nombre}}">
+                <input type="submit" value="Edit">
+            </form>
+        {{/if}}
+        
+        <br>
     {{/each}}
 </div>
 
